@@ -1,5 +1,5 @@
 const cacheName = "my-site-cache-v1";
-const filesToCache = [ "/", "/index.html", "/style.css", "/script.js" ];
+const filesToCache = [ "/", "/index.html" ];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
