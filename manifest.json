@@ -1,7 +1,7 @@
 {
   "name": "Random Room App",
   "short_name": "Random Room",
-  "start_url": "/index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffe4e6",
   "theme_color": "#ffe4e6",
