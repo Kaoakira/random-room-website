@@ -234,24 +234,91 @@
     });
   }
 
-  // Randomize Layout
-  function randomize(){
-    const roomW=Number(roomWInput.value), roomH=Number(roomHInput.value), BOX=260;
-    const scale=BOX/Math.max(roomW,roomH);
-    const offsetX=(BOX-roomW*scale)/2, offsetY=(BOX-roomH*scale)/2;
-    layout=[]; unplaced=[];
-    const placed=[];
+  // ---- FIXED WALL STICKING LOGIC ----
+  function stickToWall(obj, roomW, roomH, placed){
+    const maxAttempts = 200;
+    let attempt = 0;
+    while(attempt < maxAttempts){
+      let side = Math.floor(rnd(0,4)); // pick wall
+      let x, y, cx, cy;
 
-    const tryRect = it=>{ for(let t=0;t<500;t++){ const x=rnd(0,roomW-it.w), y=rnd(0,roomH-it.h), rect={...it,x,y}; if(placed.every(p=>p.shape==='rect'?!rectsOverlap(rect,p):p.shape==='circle'?!rectCircleOverlap(rect,p):!triangleBBoxOverlap(p,rect))) return rect; } return null; };
-    const tryCirc = it=>{ const r=it.d/2; for(let t=0;t<500;t++){ const cx=rnd(r,roomW-r), cy=rnd(r,roomH-r), circ={...it,cx,cy,r}; if(placed.every(p=>p.shape==='rect'? !rectCircleOverlap(p,circ):p.shape==='circle'? !circlesOverlap(circ,p):!triangleBBoxOverlap(p,circ))) return circ; } return null; };
-    const tryTri = it=>{ for(let t=0;t<500;t++){ const x=rnd(0,roomW-it.base), y=rnd(0,roomH-it.height), tri={...it,x,y}; if(placed.every(p=>p.shape==='rect'? !triangleBBoxOverlap(tri,p):p.shape==='circle'? !triangleBBoxOverlap(tri,p):!triangleBBoxOverlap(tri,p))) return tri; } return null; };
+      if(obj.shape === 'rect'){
+        const w=obj.w, h=obj.h;
+        if(side===0){ x=0; y=rnd(0, roomH-h); }
+        else if(side===1){ x=rnd(0, roomW-w); y=0; }
+        else if(side===2){ x=roomW-w; y=rnd(0, roomH-h);}
+        else { x=rnd(0, roomW-w); y=roomH-h; }
+        obj.x=x; obj.y=y;
+      }
 
-    items.forEach(it=>{ const placedItem=it.shape==='rect'?tryRect(it):it.shape==='circle'?tryCirc(it):tryTri(it); if(placedItem) placed.push(placedItem); else unplaced.push(it); });
+      else if(obj.shape === 'circle'){
+        const r=obj.r;
+        if(side===0){ cx=r; cy=rnd(r, roomH-r); }
+        else if(side===1){ cx=rnd(r, roomW-r); cy=r; }
+        else if(side===2){ cx=roomW-r; cy=rnd(r, roomH-r); }
+        else { cx=rnd(r, roomW-r); cy=roomH-r; }
+        obj.cx=cx; obj.cy=cy;
+      }
 
-    layout=placed;
-    renderSVG(scale,offsetX,offsetY);
-    renderUnplaced();
+      else if(obj.shape === 'triangle'){
+        const b=obj.base, h=obj.height;
+        if(side===0){ x=0; y=rnd(0, roomH-h); }
+        else if(side===1){ x=rnd(0, roomW-b); y=0; }
+        else if(side===2){ x=roomW-b; y=rnd(0, roomH-h); }
+        else { x=rnd(0, roomW-b); y=roomH-h; }
+        obj.x=x; obj.y=y;
+      }
+
+      // === collision check ===
+      let overlap=false;
+      for(const p of placed){
+        if(obj.shape==='rect'){
+          if(p.shape==='rect'){
+            if(!(obj.x+obj.w<=p.x || obj.x>=p.x+p.w || obj.y+obj.h<=p.y || obj.y>=p.y+p.h)){ overlap=true; break; }
+          } else if(p.shape==='circle'){
+            const dx=(obj.x+obj.w/2)-p.cx, dy=(obj.y+obj.h/2)-p.cy;
+            if(Math.sqrt(dx*dx+dy*dy) < Math.max(obj.w,obj.h)/2+p.r){ overlap=true; break; }
+          } else if(p.shape==='triangle'){
+            if(!(obj.x+obj.w<=p.x || obj.x>=p.x+p.base || obj.y+obj.h<=p.y || obj.y>=p.y+p.height)){ overlap=true; break; }
+          }
+        }
+        else if(obj.shape==='circle'){
+          let px,py,pr;
+          if(p.shape==='circle'){px=p.cx; py=p.cy; pr=p.r;}
+          else if(p.shape==='rect'){px=p.x+p.w/2; py=p.y+p.h/2; pr=Math.max(p.w,p.h)/2;}
+          else if(p.shape==='triangle'){px=p.x+p.base/2; py=p.y+p.height/2; pr=Math.max(p.base,p.height)/2;}
+          const dx=obj.cx-px, dy=obj.cy-py;
+          if(Math.sqrt(dx*dx+dy*dy)<obj.r+pr){overlap=true; break;}
+        }
+        else if(obj.shape==='triangle'){
+          if(p.shape==='rect'){
+            if(!(obj.x+obj.base<=p.x || obj.x>=p.x+p.w || obj.y+obj.height<=p.y || obj.y>=p.y+p.h)){overlap=true; break;}
+          } else if(p.shape==='circle'){
+            const px=p.cx, py=p.cy, pr=p.r;
+            if(!(obj.x+obj.base<=px-pr || obj.x>=px+pr || obj.y+obj.height<=py-pr || obj.y>=py+pr)){overlap=true; break;}
+          } else if(p.shape==='triangle'){
+            if(!(obj.x+obj.base<=p.x || obj.x>=p.x+p.base || obj.y+obj.height<=p.y || obj.y>=p.y+p.height)){overlap=true; break;}
+          }
+        }
+      }
+
+      if(!overlap) return obj; // success
+      attempt++;
+    }
+    return obj; // fallback (may overlap if no valid found)
   }
+
+  // ---- RANDOMIZE ----
+  document.getElementById('randomize').onclick=()=>{
+    layout.length=0;
+    const roomW=Number(roomWInput.value), roomH=Number(roomHInput.value);
+    items.forEach(it=>{
+      const placedObj = stickToWall({...it}, roomW, roomH, layout);
+      layout.push(placedObj);
+    });
+    renderSVG();
+  };
+
 
   document.getElementById('randomize').addEventListener('click', randomize);
 
@@ -277,6 +344,7 @@
 </script>
 </body>
 </html>
+
 
 
 
