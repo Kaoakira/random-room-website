@@ -1,350 +1,530 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css?family=Comic+Neue" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Comic+Neue" rel="stylesheet">
 
-<!-- Favicon -->
-<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="icon-16.png">
-<link rel="apple-touch-icon" sizes="120x120" href="icon-120.png">
-<link rel="apple-touch-icon" sizes="152x152" href="icon-152.png">
-<link rel="apple-touch-icon" sizes="167x167" href="icon-167.png">
-<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icon-16.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="icon-120.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="icon-152.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="icon-167.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
 
-<!-- PWA Support -->
-<link rel="manifest" href="manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="theme-color" content="#ffe4e6">
-<meta name="apple-mobile-web-app-title" content="JUDBAN App">
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="theme-color" content="#ffe4e6">
+  <meta name="apple-mobile-web-app-title" content="JUDBAN App">
 
-<title>JUDBAN</title>
+  <title>JUDBAN</title>
 
-<style>
-  body, html { margin:0; padding:0; font-family: monospace; height: 100%;}
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Comic Neue';
+      height: 100%;
+    }
 
-  /* HOME PAGE */
-  #home {
-    z-index: 500;
-    top:0; left:0; width:100vw; height:100vh;
-    background: url('https://i.pinimg.com/1200x/8f/c8/ec/8fc8ecb0e2c97d26b9b5bcab55d8097d.jpg') center/cover no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: sticky;
-  }
-  #home h1 {
-    font-family: 'Comic Neue';
-    text-align: center;
-    line-height: 5rem;
-    padding: 15px;
-    color: #A16B5F;
-    font-size: 3rem;
-    margin-bottom: 2rem;
-    border: 6px solid #A16B5F;
-    border-radius: 20px;
-  }
-  #home button {
-    font-family: 'Comic Neue';
-    color: #A16B5F;
-    font-weight: bold;
-    padding: 1rem 2rem;
-    font-size: 1.5rem;
-    border:none;
-    border: 2px rgb(255, 229, 233) solid;
-    border-radius:1rem;
-    background-image: linear-gradient(to right, #fffeab, #f8a8ed);
-    transition: all 0.2s;
-  }
-  #home button:hover { transform: scale(1.05); background: rgba(255,255,255,1); }
+    /* HOME PAGE */
+    #home {
+      z-index: 500;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('https://i.pinimg.com/1200x/8f/c8/ec/8fc8ecb0e2c97d26b9b5bcab55d8097d.jpg') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: sticky;
+    }
 
-  /* Shape Buttons */
-  #shapeRect { width:60px; height:60px; background:#8B4513; border:3px solid #D2B48C; border-radius:0.5rem; cursor:pointer; transition: all 0.2s; }
-  #shapeCircle { width:60px; height:60px; background:#FFC0CB; border:3px solid #FF69B4; border-radius:50%; cursor:pointer; transition: all 0.2s; }
-  #shapeTriangle {
-    width:60px; height:60px; font-size:60px; background:#FFFFE0;
-    display:flex; justify-content:center; align-items:center; cursor:pointer; border-radius:0.25rem;
-  }
+    #home h1 {
+      font-family: 'Comic Neue';
+      text-align: center;
+      line-height: 5rem;
+      padding: 15px;
+      color: #A16B5F;
+      font-size: 3rem;
+      margin-bottom: 2rem;
+      border: 6px solid #A16B5F;
+      border-radius: 20px;
+      background-color: rgba(255, 228, 230, 0.4);
+    }
 
-  /* Buttons */
-  .flex button.active, #home button:hover, #randomize { transform: scale(1.05); }
-  #randomize {
-    font-family: 'Comic Neue';
-    font-weight: bold;
-    color: #A16B5F;
-    border-radius:1rem;
-    border:2px rgb(255,229,233) solid;
-    background-image: linear-gradient(to right, #fffeab, #f8a8ed);
-  }
+    #home button {
+      font-family: 'Comic Neue';
+      color: #A16B5F;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      font-size: 2rem;
+      border: none;
+      border: 5px rgb(255, 229, 233) solid;
+      border-radius: 2.5rem;
+      background-image: linear-gradient(to right, #fffeab, #f8a8ed);
+      transition: all 0.2s;
+    }
 
-  /* MAIN CONTENT */
-  #main { display:none; flex-direction: column; align-items: center; padding: 1rem; background:#ffe4e6; min-height:100vh; overflow-y: auto;}
-  h1 { font-size: 1rem; margin-bottom: 1rem; color: #A16B5F; font-family: 'Comic Neue'; }
-  .card { background: #fff; border-radius: 1rem; padding: 1rem; width: 100%; max-width: 350px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 1rem; }
-  .card input, .card button { width:100%; margin-top:0.5rem; padding:0.5rem; border-radius:0.75rem; border:1px solid #ccc; box-sizing:border-box; }
-  .flex { display:flex; gap:0.5rem; justify-content:center; margin-top:0.5rem; }
-  .flex button { display:flex; justify-content:center; align-items:center; font-size:50px; cursor:pointer; transition:all 0.2s; }
-  .flex button.active { border:2px solid #333; }
-  .preview { border:5px solid #886231; border-radius:2rem; background:#f5f5f5; display:flex; justify-content:center; align-items:center; margin-top:0.5rem; }
-  ul { padding-left:0; list-style:none; margin:0; max-height:160px; overflow-y:auto; }
-  li { display:flex; align-items:center; justify-content:space-between; border:1px solid #ddd; border-radius:0.75rem; padding:0.5rem; margin-bottom:0.5rem; }
-  .color-box { width:16px; height:16px; border-radius:50%; display:inline-block; margin-right:0.5rem; }
-  .text-xs { font-size:0.75rem; opacity:0.7; }
-  .text-rose { color:#e11d48; }
-  button:active { transform:scale(0.95); }
-  
-</style>
+    #home button:hover {
+      transform: scale(1.05);
+      background: rgba(255, 255, 255, 1);
+    }
+
+    /* Shape Buttons */
+    #shapeRect {
+      width: 60px;
+      height: 60px;
+      background: #8B4513;
+      border: 3px solid #D2B48C;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #shapeCircle {
+      width: 60px;
+      height: 60px;
+      background: #FFC0CB;
+      border: 3px solid #FF69B4;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #shapeTriangle {
+      width: 60px;
+      height: 60px;
+      font-size: 60px;
+      background: #FFFFE0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      border-radius: 0.25rem;
+    }
+
+    /* Buttons */
+    .flex button.active,
+    #home button:hover,
+    #randomize {
+      transform: scale(1.05);
+    }
+
+    #randomize {
+      width: 150px;
+      padding: 0.5rem 1rem;
+      font-family: 'Comic Neue';
+      font-weight: bold;
+      color: #A16B5F;
+      border-radius: 2rem;
+      border: 5px rgb(255, 229, 233) solid;
+      background-image: linear-gradient(to right, #fffeab, #f8a8ed);
+    }
+
+    /* MAIN CONTENT */
+    #main {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      background: #ffe4e6;
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #A16B5F;
+      font-family: 'Comic Neue';
+    }
+
+    .room-size {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .room-size label {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #randomize {
+      font-family: 'Comic Neue';
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #A16B5F;
+      border-radius: 2rem;
+      border: 5px rgb(255, 229, 233) solid;
+      background-image: linear-gradient(to right, #fffeab, #f8a8ed);
+      width: auto;
+      display: block;
+      margin: 0.5rem auto;
+      padding: 0.5rem 1.5rem;
+    }
+
+    .card {
+      border-radius: 1rem;
+      padding: 1rem;
+      width: 100%;
+      max-width: 350px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1rem;
+    }
+
+    .card input,
+    .card button {
+      width: 100%;
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 0.75rem;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    .flex {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+
+    .flex button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 50px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .flex button.active {
+      border: 2px solid #333;
+    }
+
+    .shape-size {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .shape-size input {
+      flex: 1;
+    }
+
+    .name-add {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .name-add input {
+      flex: 2;
+    }
+
+    .name-add button {
+      flex: 1;
+    }
+
+
+    .preview {
+      border: 5px solid #886231;
+      border-radius: 2rem;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+
+    ul {
+      padding-left: 0;
+      list-style: none;
+      margin: 0;
+      max-height: 160px;
+      overflow-y: auto;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid #ddd;
+      border-radius: 0.75rem;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .color-box {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+
+    .text-xs {
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+
+    .text-rose {
+      color: #e11d48;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+  </style>
 </head>
+
 <body>
 
-  <!-- HOME PAGE -->
   <div id="home">
     <h1>DESIGN<br>YOUR<br>ROOM</h1>
     <button id="startBtn">START</button>
   </div>
 
-  <!-- MAIN WEBSITE -->
   <div id="main">
-  <h1>DESIGN YOUR ROOM</h1>
+    <h1>DESIGN YOUR ROOM</h1>
 
-  <!-- Controls -->
-  <div class="card">
-    <label>Room Width (cm)<input type="number" id="roomW" value="300"></label>
-    <label>Room Height (cm)<input type="number" id="roomH" value="200"></label>
+    <div class="card">
+      <div class="room-size">
+        <label>Room Width (cm)<input type="number" id="roomW" value="300"></label>
+        <label>Room Height (cm)<input type="number" id="roomH" value="200"></label>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="flex">
+        <button id="shapeRect"></button>
+        <button id="shapeCircle"></button>
+        <button id="shapeTriangle">△</button>
+      </div>
+
+      <!-- Rect size -->
+      <div id="rectInputs" style="display:none; margin-top:0.5rem;">
+        <div class="shape-size">
+          <input type="number" id="rectW" placeholder="Width(cm)" min="1">
+          <input type="number" id="rectH" placeholder="Height(cm)" min="1">
+        </div>
+      </div>
+
+      <!-- Circle size -->
+      <div id="circleInputs" style="display:none; margin-top:0.5rem;">
+        <input type="number" id="diameter" placeholder="Diameter(cm)" min="1">
+      </div>
+
+      <!-- Triangle size -->
+      <div id="triangleInputs" style="display:none; margin-top:0.5rem;">
+        <div class="shape-size">
+          <input type="number" id="triBase" placeholder="Base(cm)" min="1">
+          <input type="number" id="triHeight" placeholder="Height(cm)" min="1">
+        </div>
+      </div>
+
+      <!-- Name + Button same line -->
+      <div class="name-add" style="display:none;" id="nameAddWrapper">
+        <input type="text" id="itemName" placeholder="Name">
+        <button id="addItem">Add Furniture</button>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="preview" style="width:260px; height:260px; margin-inline:auto;">
+        <svg id="svg" width="260" height="260"></svg>
+      </div>
+      <div id="unplaced" class="text-xs text-rose" style="margin-top:0.5rem;"></div>
+      <button id="randomize" style="margin-bottom:0.5rem; margin-inline: auto;">CLICK TO CHANGE</button>
+    </div>
+
+    <div class="card">
+      <h3 class="text-sm">Furniture List</h3>
+      <ul id="itemList">
+        <li class="text-xs opacity-60">No items yet.</li>
+      </ul>
+    </div>
+
   </div>
 
-  <div class="card">
-    <div class="flex">
-      <button id="shapeRect"></button>
-      <button id="shapeCircle"></button>
-      <button id="shapeTriangle">△</button>
-    </div>
-    <div id="rectInputs" style="display:none; margin-top:0.5rem;">
-      <input type="number" id="rectW" placeholder="Width cm" value="100">
-      <input type="number" id="rectH" placeholder="Height cm" value="50">
-    </div>
-    <div id="circleInputs" style="display:none; margin-top:0.5rem;">
-      <input type="number" id="diameter" placeholder="Diameter cm" value="60">
-    </div>
-    <div id="triangleInputs" style="display:none; margin-top:0.5rem;">
-      <input type="number" id="triBase" placeholder="Base cm" value="80">
-      <input type="number" id="triHeight" placeholder="Height cm" value="60">
-    </div>
-    <input type="text" id="itemName" placeholder="Name" style="display:none;">
-    <button id="addItem" style="display:none;">Add Furniture</button>
-  </div>
-
-  <!-- Preview -->
-  <div class="card">
-    <div class="preview" style="width:260px; height:260px; margin-inline:auto;">
-      <svg id="svg" width="260" height="260"></svg>
-    </div>
-    <div id="unplaced" class="text-xs text-rose" style="margin-top:0.5rem;"></div>
-    <button id="randomize" style="margin-bottom:0.5rem;">CLICK TO CHANGE</button>
-  </div>
-
-  <!-- Furniture List -->
-  <div class="card">
-    <h3 class="text-sm">Furniture List</h3>
-    <ul id="itemList">
-      <li class="text-xs opacity-60">No items yet.</li>
-    </ul>
-  </div>
-
-  </div>
-
-<script>
-  // Service Worker
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-      .then(reg => console.log('Service worker registered:', reg))
-      .catch(err => console.log('Service worker error:', err));
-    });
-  }
-
-  // Start Button
-  document.getElementById('startBtn').addEventListener('click', () => {
-    document.getElementById('home').style.display='none';
-    document.getElementById('main').style.display='flex';
-  });
-
-  // --- ROOM LAYOUT LOGIC ---
-  const rnd = (min,max)=>Math.random()*(max-min)+min;
-  const pastel = ()=>`hsl(${Math.floor(rnd(0,360))} 80% 85%)`;
-
-  // Overlap checks
-  const rectsOverlap=(a,b)=>!(a.x+a.w<=b.x||a.x>=b.x+b.w||a.y+a.h<=b.y||a.y>=b.y+b.h);
-  const circlesOverlap=(a,b)=>{ const dx=a.cx-b.cx, dy=a.cy-b.cy, rSum=a.r+b.r; return dx*dx+dy*dy<rSum*rSum; }
-  const rectCircleOverlap=(r,c)=>{ const cx=Math.max(r.x,Math.min(c.cx,r.x+r.w)), cy=Math.max(r.y,Math.min(c.cy,r.y+r.h)); return (c.cx-cx)**2+(c.cy-cy)**2<c.r*c.r; }
-  const triangleBBoxOverlap=(a,b)=>{ const triX=a.x, triY=a.y, triW=a.base, triH=a.height; const bx=b.x||b.cx-b.r, by=b.y||b.cy-b.r, bw=b.w||b.r*2, bh=b.h||b.r*2; return !(triX+triW<=bx||triX>=bx+bw||triY+triH<=by||triY>=by+bh); }
-
-  let items=[], layout=[], unplaced=[], shape='';
-
-  // Elements
-  const roomWInput=document.getElementById('roomW'), roomHInput=document.getElementById('roomH');
-  const rectWInput=document.getElementById('rectW'), rectHInput=document.getElementById('rectH');
-  const diameterInput=document.getElementById('diameter'), triBaseInput=document.getElementById('triBase'), triHeightInput=document.getElementById('triHeight');
-  const itemNameInput=document.getElementById('itemName'), svg=document.getElementById('svg'), unplacedDiv=document.getElementById('unplaced'), itemList=document.getElementById('itemList');
-  const shapeRectBtn=document.getElementById('shapeRect'), shapeCircleBtn=document.getElementById('shapeCircle'), shapeTriangleBtn=document.getElementById('shapeTriangle'), addItemBtn=document.getElementById('addItem');
-  const rectInputs=document.getElementById('rectInputs'), circleInputs=document.getElementById('circleInputs'), triangleInputs=document.getElementById('triangleInputs');
-
-  // Show Inputs
-  function showInputs(selected){
-    rectInputs.style.display=selected==='rect'?'block':'none';
-    circleInputs.style.display=selected==='circle'?'block':'none';
-    triangleInputs.style.display=selected==='triangle'?'block':'none';
-    itemNameInput.style.display='block';
-    addItemBtn.style.display='block';
-  }
-
-  // Set Active Button
-  function setActiveButton(btn){
-    [shapeRectBtn, shapeCircleBtn, shapeTriangleBtn].forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-  }
-
-  shapeRectBtn.addEventListener('click', ()=>{ shape='rect'; showInputs(shape); setActiveButton(shapeRectBtn); });
-  shapeCircleBtn.addEventListener('click', ()=>{ shape='circle'; showInputs(shape); setActiveButton(shapeCircleBtn); });
-  shapeTriangleBtn.addEventListener('click', ()=>{ shape='triangle'; showInputs(shape); setActiveButton(shapeTriangleBtn); });
-
-  // Add Item
-  addItemBtn.addEventListener('click', ()=>{
-    const name=itemNameInput.value||`${shape==='rect'?'Rect':shape==='circle'?'Circle':'Triangle'} ${items.length+1}`;
-    if(shape==='rect'){ items.push({id:crypto.randomUUID(),shape,name,w:Number(rectWInput.value),h:Number(rectHInput.value),color:pastel()}); }
-    else if(shape==='circle'){ items.push({id:crypto.randomUUID(),shape,name,d:Number(diameterInput.value),color:pastel()}); }
-    else if(shape==='triangle'){ items.push({id:crypto.randomUUID(),shape,name,base:Number(triBaseInput.value),height:Number(triHeightInput.value),color:pastel()}); }
-    itemNameInput.value='';
-    renderList();
-  });
-
-  // Render List
-  function renderList(){
-    itemList.innerHTML='';
-    if(items.length===0){ itemList.innerHTML='<li class="text-xs opacity-60">No items yet.</li>'; return; }
-    items.forEach(it=>{
-      const li=document.createElement('li');
-      const sizeText=it.shape==='rect'?`${it.w}×${it.h} cm`:
-                    it.shape==='circle'?`Ø ${it.d} cm`:`${it.base}×${it.height} cm`;
-      li.innerHTML=`<div style="display:flex;align-items:center;gap:0.5rem;"><span class="color-box" style="background:${it.color}"></span><div>${it.name}</div><div class="text-xs">${sizeText}</div></div>`;
-      itemList.appendChild(li);
-    });
-  }
-
-  // ---- FIXED WALL STICKING LOGIC ----
-  function stickToWall(obj, roomW, roomH, placed){
-    const maxAttempts = 200;
-    let attempt = 0;
-    while(attempt < maxAttempts){
-      let side = Math.floor(rnd(0,4)); // pick wall
-      let x, y, cx, cy;
-
-      if(obj.shape === 'rect'){
-        const w=obj.w, h=obj.h;
-        if(side===0){ x=0; y=rnd(0, roomH-h); }
-        else if(side===1){ x=rnd(0, roomW-w); y=0; }
-        else if(side===2){ x=roomW-w; y=rnd(0, roomH-h);}
-        else { x=rnd(0, roomW-w); y=roomH-h; }
-        obj.x=x; obj.y=y;
-      }
-
-      else if(obj.shape === 'circle'){
-        const r=obj.r;
-        if(side===0){ cx=r; cy=rnd(r, roomH-r); }
-        else if(side===1){ cx=rnd(r, roomW-r); cy=r; }
-        else if(side===2){ cx=roomW-r; cy=rnd(r, roomH-r); }
-        else { cx=rnd(r, roomW-r); cy=roomH-r; }
-        obj.cx=cx; obj.cy=cy;
-      }
-
-      else if(obj.shape === 'triangle'){
-        const b=obj.base, h=obj.height;
-        if(side===0){ x=0; y=rnd(0, roomH-h); }
-        else if(side===1){ x=rnd(0, roomW-b); y=0; }
-        else if(side===2){ x=roomW-b; y=rnd(0, roomH-h); }
-        else { x=rnd(0, roomW-b); y=roomH-h; }
-        obj.x=x; obj.y=y;
-      }
-
-      // === collision check ===
-      let overlap=false;
-      for(const p of placed){
-        if(obj.shape==='rect'){
-          if(p.shape==='rect'){
-            if(!(obj.x+obj.w<=p.x || obj.x>=p.x+p.w || obj.y+obj.h<=p.y || obj.y>=p.y+p.h)){ overlap=true; break; }
-          } else if(p.shape==='circle'){
-            const dx=(obj.x+obj.w/2)-p.cx, dy=(obj.y+obj.h/2)-p.cy;
-            if(Math.sqrt(dx*dx+dy*dy) < Math.max(obj.w,obj.h)/2+p.r){ overlap=true; break; }
-          } else if(p.shape==='triangle'){
-            if(!(obj.x+obj.w<=p.x || obj.x>=p.x+p.base || obj.y+obj.h<=p.y || obj.y>=p.y+p.height)){ overlap=true; break; }
-          }
-        }
-        else if(obj.shape==='circle'){
-          let px,py,pr;
-          if(p.shape==='circle'){px=p.cx; py=p.cy; pr=p.r;}
-          else if(p.shape==='rect'){px=p.x+p.w/2; py=p.y+p.h/2; pr=Math.max(p.w,p.h)/2;}
-          else if(p.shape==='triangle'){px=p.x+p.base/2; py=p.y+p.height/2; pr=Math.max(p.base,p.height)/2;}
-          const dx=obj.cx-px, dy=obj.cy-py;
-          if(Math.sqrt(dx*dx+dy*dy)<obj.r+pr){overlap=true; break;}
-        }
-        else if(obj.shape==='triangle'){
-          if(p.shape==='rect'){
-            if(!(obj.x+obj.base<=p.x || obj.x>=p.x+p.w || obj.y+obj.height<=p.y || obj.y>=p.y+p.h)){overlap=true; break;}
-          } else if(p.shape==='circle'){
-            const px=p.cx, py=p.cy, pr=p.r;
-            if(!(obj.x+obj.base<=px-pr || obj.x>=px+pr || obj.y+obj.height<=py-pr || obj.y>=py+pr)){overlap=true; break;}
-          } else if(p.shape==='triangle'){
-            if(!(obj.x+obj.base<=p.x || obj.x>=p.x+p.base || obj.y+obj.height<=p.y || obj.y>=p.y+p.height)){overlap=true; break;}
-          }
-        }
-      }
-
-      if(!overlap) return obj; // success
-      attempt++;
+  <script>
+    // Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service worker registered:', reg))
+          .catch(err => console.log('Service worker error:', err));
+      });
     }
-    return obj; // fallback (may overlap if no valid found)
-  }
 
-  // ---- RANDOMIZE ----
-  document.getElementById('randomize').onclick=()=>{
-    layout.length=0;
-    const roomW=Number(roomWInput.value), roomH=Number(roomHInput.value);
-    items.forEach(it=>{
-      const placedObj = stickToWall({...it}, roomW, roomH, layout);
-      layout.push(placedObj);
+    // Start Button
+    document.getElementById('startBtn').addEventListener('click', () => {
+      document.getElementById('home').style.display = 'none';
+      document.getElementById('main').style.display = 'flex';
     });
-    renderSVG();
-  };
 
+    // --- ROOM LAYOUT LOGIC ---
+    const rnd = (min, max) => Math.random() * (max - min) + min;
+    const pastel = () => `hsl(${Math.floor(rnd(0, 360))} 80% 85%)`;
 
-  document.getElementById('randomize').addEventListener('click', randomize);
+    // Overlap checks
+    const rectsOverlap = (a, b) => !(a.x + a.w <= b.x || a.x >= b.x + b.w || a.y + a.h <= b.y || a.y >= b.y + b.h);
+    const circlesOverlap = (a, b) => { const dx = a.cx - b.cx, dy = a.cy - b.cy, rSum = a.r + b.r; return dx * dx + dy * dy < rSum * rSum; }
+    const rectCircleOverlap = (r, c) => { const cx = Math.max(r.x, Math.min(c.cx, r.x + r.w)), cy = Math.max(r.y, Math.min(c.cy, r.y + r.h)); return (c.cx - cx) ** 2 + (c.cy - cy) ** 2 < c.r * c.r; }
+    const triangleBBoxOverlap = (a, b) => { const triX = a.x, triY = a.y, triW = a.base, triH = a.height; const bx = b.x || b.cx - b.r, by = b.y || b.cy - b.r, bw = b.w || b.r * 2, bh = b.h || b.r * 2; return !(triX + triW <= bx || triX >= bx + bw || triY + triH <= by || triY >= by + bh); }
 
-  // Render SVG
-  function renderSVG(scale,offsetX,offsetY){
-    svg.innerHTML='';
-    const roomW=Number(roomWInput.value), roomH=Number(roomHInput.value);
-    const roomRect=document.createElementNS("http://www.w3.org/2000/svg",'rect');
-    roomRect.setAttribute('x',offsetX); roomRect.setAttribute('y',offsetY); roomRect.setAttribute('width',roomW*scale); roomRect.setAttribute('height',roomH*scale);
-    roomRect.setAttribute('fill','none'); roomRect.setAttribute('stroke','black'); roomRect.setAttribute('stroke-width',1);
-    svg.appendChild(roomRect);
+    let items = [], layout = [], unplaced = [], shape = '';
 
-    layout.forEach(p=>{
-      if(p.shape==='rect'){ const r=document.createElementNS("http://www.w3.org/2000/svg",'rect'); r.setAttribute('x',offsetX+p.x*scale); r.setAttribute('y',offsetY+p.y*scale); r.setAttribute('width',p.w*scale); r.setAttribute('height',p.h*scale); r.setAttribute('fill',p.color); r.setAttribute('stroke','#333'); svg.appendChild(r); }
-      else if(p.shape==='circle'){ const c=document.createElementNS("http://www.w3.org/2000/svg",'circle'); c.setAttribute('cx',offsetX+p.cx*scale); c.setAttribute('cy',offsetY+p.cy*scale); c.setAttribute('r',p.r*scale); c.setAttribute('fill',p.color); c.setAttribute('stroke','#333'); svg.appendChild(c); }
-      else if(p.shape==='triangle'){ const tri=document.createElementNS("http://www.w3.org/2000/svg",'polygon'); const x=offsetX+p.x*scale, y=offsetY+p.y*scale, base=p.base*scale, height=p.height*scale; const points=`${x},${y+height} ${x+base/2},${y} ${x+base},${y+height}`; tri.setAttribute('points',points); tri.setAttribute('fill',p.color); tri.setAttribute('stroke','#333'); svg.appendChild(tri); }
+    // Elements
+    const roomWInput = document.getElementById('roomW'), roomHInput = document.getElementById('roomH');
+    const rectWInput = document.getElementById('rectW'), rectHInput = document.getElementById('rectH');
+    const diameterInput = document.getElementById('diameter'), triBaseInput = document.getElementById('triBase'), triHeightInput = document.getElementById('triHeight');
+    const itemNameInput = document.getElementById('itemName'), svg = document.getElementById('svg'), unplacedDiv = document.getElementById('unplaced'), itemList = document.getElementById('itemList');
+    const shapeRectBtn = document.getElementById('shapeRect'), shapeCircleBtn = document.getElementById('shapeCircle'), shapeTriangleBtn = document.getElementById('shapeTriangle'), addItemBtn = document.getElementById('addItem');
+    const rectInputs = document.getElementById('rectInputs'), circleInputs = document.getElementById('circleInputs'), triangleInputs = document.getElementById('triangleInputs');
+
+    // Show Inputs
+    function showInputs(selected) {
+      rectInputs.style.display = selected === 'rect' ? 'block' : 'none';
+      circleInputs.style.display = selected === 'circle' ? 'block' : 'none';
+      triangleInputs.style.display = selected === 'triangle' ? 'block' : 'none';
+      document.getElementById('nameAddWrapper').style.display = 'flex';
+    }
+
+    // Set Active Button
+    function setActiveButton(btn) {
+      [shapeRectBtn, shapeCircleBtn, shapeTriangleBtn].forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    shapeRectBtn.addEventListener('click', () => { shape = 'rect'; showInputs(shape); setActiveButton(shapeRectBtn); });
+    shapeCircleBtn.addEventListener('click', () => { shape = 'circle'; showInputs(shape); setActiveButton(shapeCircleBtn); });
+    shapeTriangleBtn.addEventListener('click', () => { shape = 'triangle'; showInputs(shape); setActiveButton(shapeTriangleBtn); });
+
+    // Add Item
+    addItemBtn.addEventListener('click', () => {
+      const name = itemNameInput.value || `${shape === 'rect' ? 'Rect' : shape === 'circle' ? 'Circle' : 'Triangle'} ${items.length + 1}`;
+      if (shape === 'rect') { items.push({ id: crypto.randomUUID(), shape, name, w: Number(rectWInput.value), h: Number(rectHInput.value), color: pastel() }); }
+      else if (shape === 'circle') { items.push({ id: crypto.randomUUID(), shape, name, d: Number(diameterInput.value), r: Number(diameterInput.value) / 2, color: pastel() }); }
+      else if (shape === 'triangle') { items.push({ id: crypto.randomUUID(), shape, name, base: Number(triBaseInput.value), height: Number(triHeightInput.value), color: pastel() }); }
+      itemNameInput.value = '';
+      renderList();
     });
-  }
 
-  // Unplaced Items
-  function renderUnplaced(){ unplacedDiv.textContent=unplaced.length>0?'Unplaced: '+unplaced.map(u=>u.name).join(', '):''; }
+    // Render List
+    function renderList() {
+      itemList.innerHTML = '';
+      if (items.length === 0) { itemList.innerHTML = '<li class="text-xs opacity-60">No items yet.</li>'; return; }
+      items.forEach(it => {
+        const li = document.createElement('li');
+        const sizeText = it.shape === 'rect' ? `${it.w}×${it.h} cm` :
+          it.shape === 'circle' ? `Ø ${it.d} cm` : `${it.base}×${it.height} cm`;
+        li.innerHTML = `<div style="display:flex;align-items:center;gap:0.5rem;"><span class="color-box" style="background:${it.color}"></span><div>${it.name}</div><div class="text-xs">${sizeText}</div></div>`;
+        itemList.appendChild(li);
+      });
+    }
 
-</script>
+    // --- NEW RANDOMIZATION LOGIC ---
+    function checkOverlap(obj, placed) {
+      for (const p of placed) {
+        let overlap = false;
+        if (obj.shape === 'rect') {
+          if (p.shape === 'rect' && rectsOverlap(obj, p)) overlap = true;
+          else if (p.shape === 'circle' && rectCircleOverlap(obj, p)) overlap = true;
+          else if (p.shape === 'triangle' && triangleBBoxOverlap(obj, p)) overlap = true;
+        } else if (obj.shape === 'circle') {
+          if (p.shape === 'rect' && rectCircleOverlap(p, obj)) overlap = true;
+          else if (p.shape === 'circle' && circlesOverlap(obj, p)) overlap = true;
+          else if (p.shape === 'triangle' && triangleBBoxOverlap(p, obj)) overlap = true;
+        } else if (obj.shape === 'triangle') {
+          if (p.shape === 'rect' && triangleBBoxOverlap(obj, p)) overlap = true;
+          else if (p.shape === 'circle' && triangleBBoxOverlap(obj, p)) overlap = true;
+          else if (p.shape === 'triangle' && triangleBBoxOverlap(obj, p)) overlap = true;
+        }
+        if (overlap) return true;
+      }
+      return false;
+    }
+
+    function randomize() {
+      layout.length = 0;
+      unplaced.length = 0;
+      const roomW = Number(roomWInput.value);
+      const roomH = Number(roomHInput.value);
+
+      // Sort items by size to place the largest first
+      const sortedItems = [...items].sort((a, b) => {
+        let areaA = a.shape === 'rect' ? a.w * a.h : a.shape === 'circle' ? Math.PI * a.r * a.r : 0.5 * a.base * a.height;
+        let areaB = b.shape === 'rect' ? b.w * b.h : b.shape === 'circle' ? Math.PI * b.r * b.r : 0.5 * b.base * b.height;
+        return areaB - areaA;
+      });
+
+      for (const item of sortedItems) {
+        let placed = false;
+        const maxAttempts = 500;
+        for (let i = 0; i < maxAttempts; i++) {
+          let newItem = { ...item };
+          if (newItem.shape === 'rect') {
+            newItem.x = rnd(0, roomW - newItem.w);
+            newItem.y = rnd(0, roomH - newItem.h);
+          } else if (newItem.shape === 'circle') {
+            newItem.cx = rnd(newItem.r, roomW - newItem.r);
+            newItem.cy = rnd(newItem.r, roomH - newItem.r);
+          } else if (newItem.shape === 'triangle') {
+            newItem.x = rnd(0, roomW - newItem.base);
+            newItem.y = rnd(0, roomH - newItem.height);
+          }
+
+          if (!checkOverlap(newItem, layout)) {
+            layout.push(newItem);
+            placed = true;
+            break;
+          }
+        }
+        if (!placed) {
+          unplaced.push(item);
+        }
+      }
+      renderSVG();
+      renderUnplaced();
+    }
+
+    document.getElementById('randomize').addEventListener('click', randomize);
+
+    // Render SVG
+    function renderSVG() {
+      const roomW = Number(roomWInput.value), roomH = Number(roomHInput.value);
+      const svgWidth = svg.clientWidth;
+      const svgHeight = svg.clientHeight;
+      const scale = Math.min(svgWidth / roomW, svgHeight / roomH);
+      const offsetX = (svgWidth - roomW * scale) / 2;
+      const offsetY = (svgHeight - roomH * scale) / 2;
+
+      svg.innerHTML = '';
+      const roomRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+      roomRect.setAttribute('x', offsetX); roomRect.setAttribute('y', offsetY); roomRect.setAttribute('width', roomW * scale); roomRect.setAttribute('height', roomH * scale);
+      roomRect.setAttribute('fill', 'none'); roomRect.setAttribute('stroke', 'black'); roomRect.setAttribute('stroke-width', 1);
+      svg.appendChild(roomRect);
+
+      layout.forEach(p => {
+        if (p.shape === 'rect') { const r = document.createElementNS("http://www.w3.org/2000/svg", 'rect'); r.setAttribute('x', offsetX + p.x * scale); r.setAttribute('y', offsetY + p.y * scale); r.setAttribute('width', p.w * scale); r.setAttribute('height', p.h * scale); r.setAttribute('fill', p.color); r.setAttribute('stroke', '#333'); svg.appendChild(r); }
+        else if (p.shape === 'circle') { const c = document.createElementNS("http://www.w3.org/2000/svg", 'circle'); c.setAttribute('cx', offsetX + p.cx * scale); c.setAttribute('cy', offsetY + p.cy * scale); c.setAttribute('r', p.r * scale); c.setAttribute('fill', p.color); c.setAttribute('stroke', '#333'); svg.appendChild(c); }
+        else if (p.shape === 'triangle') { const tri = document.createElementNS("http://www.w3.org/2000/svg", 'polygon'); const x = offsetX + p.x * scale, y = offsetY + p.y * scale, base = p.base * scale, height = p.height * scale; const points = `${x},${y + height} ${x + base / 2},${y} ${x + base},${y + height}`; tri.setAttribute('points', points); tri.setAttribute('fill', p.color); tri.setAttribute('stroke', '#333'); svg.appendChild(tri); }
+      });
+    }
+
+    // Unplaced Items
+    function renderUnplaced() { unplacedDiv.textContent = unplaced.length > 0 ? 'Unplaced: ' + unplaced.map(u => u.name).join(', ') : ''; }
+
+  </script>
 </body>
+
 </html>
-
-
-
-
