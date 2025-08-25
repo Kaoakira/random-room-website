@@ -43,6 +43,7 @@
       justify-content: center;
       align-items: center;
       position: sticky;
+      filter: brightness(125%);
     }
 
     #home h1 {
@@ -59,6 +60,7 @@
     }
 
     #home button {
+      filter: brightness(90%);
       font-family: 'Comic Neue';
       color: #A16B5F;
       font-weight: bold;
@@ -504,20 +506,51 @@
       const roomW = Number(roomWInput.value), roomH = Number(roomHInput.value);
       const svgWidth = svg.clientWidth;
       const svgHeight = svg.clientHeight;
-      const scale = Math.min(svgWidth / roomW, svgHeight / roomH);
-      const offsetX = (svgWidth - roomW * scale) / 2;
-      const offsetY = (svgHeight - roomH * scale) / 2;
+      const margin = 10; // Margin in pixels
+      const effectiveWidth = svgWidth - 2 * margin;
+      const effectiveHeight = svgHeight - 2 * margin;
+      const scale = Math.min(effectiveWidth / roomW, effectiveHeight / roomH);
+      const offsetX = margin + (effectiveWidth - roomW * scale) / 2;
+      const offsetY = margin + (effectiveHeight - roomH * scale) / 2;
 
       svg.innerHTML = '';
       const roomRect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-      roomRect.setAttribute('x', offsetX); roomRect.setAttribute('y', offsetY); roomRect.setAttribute('width', roomW * scale); roomRect.setAttribute('height', roomH * scale);
-      roomRect.setAttribute('fill', 'none'); roomRect.setAttribute('stroke', 'black'); roomRect.setAttribute('stroke-width', 1);
+      roomRect.setAttribute('x', offsetX);
+      roomRect.setAttribute('y', offsetY);
+      roomRect.setAttribute('width', roomW * scale);
+      roomRect.setAttribute('height', roomH * scale);
+      roomRect.setAttribute('fill', 'none');
+      roomRect.setAttribute('stroke', 'black');
+      roomRect.setAttribute('stroke-width', 1);
       svg.appendChild(roomRect);
 
       layout.forEach(p => {
-        if (p.shape === 'rect') { const r = document.createElementNS("http://www.w3.org/2000/svg", 'rect'); r.setAttribute('x', offsetX + p.x * scale); r.setAttribute('y', offsetY + p.y * scale); r.setAttribute('width', p.w * scale); r.setAttribute('height', p.h * scale); r.setAttribute('fill', p.color); r.setAttribute('stroke', '#333'); svg.appendChild(r); }
-        else if (p.shape === 'circle') { const c = document.createElementNS("http://www.w3.org/2000/svg", 'circle'); c.setAttribute('cx', offsetX + p.cx * scale); c.setAttribute('cy', offsetY + p.cy * scale); c.setAttribute('r', p.r * scale); c.setAttribute('fill', p.color); c.setAttribute('stroke', '#333'); svg.appendChild(c); }
-        else if (p.shape === 'triangle') { const tri = document.createElementNS("http://www.w3.org/2000/svg", 'polygon'); const x = offsetX + p.x * scale, y = offsetY + p.y * scale, base = p.base * scale, height = p.height * scale; const points = `${x},${y + height} ${x + base / 2},${y} ${x + base},${y + height}`; tri.setAttribute('points', points); tri.setAttribute('fill', p.color); tri.setAttribute('stroke', '#333'); svg.appendChild(tri); }
+        if (p.shape === 'rect') {
+          const r = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+          r.setAttribute('x', offsetX + p.x * scale);
+          r.setAttribute('y', offsetY + p.y * scale);
+          r.setAttribute('width', p.w * scale);
+          r.setAttribute('height', p.h * scale);
+          r.setAttribute('fill', p.color);
+          r.setAttribute('stroke', '#333');
+          svg.appendChild(r);
+        } else if (p.shape === 'circle') {
+          const c = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+          c.setAttribute('cx', offsetX + p.cx * scale);
+          c.setAttribute('cy', offsetY + p.cy * scale);
+          c.setAttribute('r', p.r * scale);
+          c.setAttribute('fill', p.color);
+          c.setAttribute('stroke', '#333');
+          svg.appendChild(c);
+        } else if (p.shape === 'triangle') {
+          const tri = document.createElementNS("http://www.w3.org/2000/svg", 'polygon');
+          const x = offsetX + p.x * scale, y = offsetY + p.y * scale, base = p.base * scale, height = p.height * scale;
+          const points = `${x},${y + height} ${x + base / 2},${y} ${x + base},${y + height}`;
+          tri.setAttribute('points', points);
+          tri.setAttribute('fill', p.color);
+          tri.setAttribute('stroke', '#333');
+          svg.appendChild(tri);
+        }
       });
     }
 
